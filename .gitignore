@@ -1,0 +1,9 @@
+__pycache__/
+.mypy_cache
+.vscode/
+.ruff_cache/
+.env
+.env.prod
+.venv/
+.idea/
+core/project/settings/local.py

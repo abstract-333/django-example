@@ -1,0 +1,7 @@
+__pycache__/
+docker_compose/
+.mypy_cache
+.vscode/
+.ruff_cache/
+.idea/
+.venv/
