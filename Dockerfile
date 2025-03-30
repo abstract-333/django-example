@@ -1,5 +1,3 @@
-# An example using multi-stage image builds to create a final image without uv.
-
 # First, build the application in the `/app` directory.
 # See `Dockerfile` for details.
 FROM ghcr.io/astral-sh/uv:0.6.7-python3.13-bookworm-slim@sha256:5ee2f527d9414c47e7eed6593b68ee959e1789e3ba87e0277627b9999996b1d1 AS builder
@@ -27,8 +25,14 @@ FROM python:3.13-slim-bookworm@sha256:8f3aba466a471c0ab903dbd7cb979abd4bda370b04
 # Python executable must be the same, e.g., using `python:3.13-slim-bookworm`
 # will fail.
 
+# Create user and group 'app'
+RUN groupadd -r app && useradd -r -g app app
+
 # Copy the application from the builder
 COPY --from=builder --chown=app:app /app /app
+
+# app should run as user app, not root for better security
+USER app
 
 # Place executables in the environment at the front of the path
 ENV PATH="/app/.venv/bin:$PATH"
