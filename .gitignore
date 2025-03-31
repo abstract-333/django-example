@@ -7,3 +7,5 @@ __pycache__/
 .venv/
 .idea/
 core/project/settings/local.py
+static/*
+!static/.gitkeep

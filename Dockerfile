@@ -12,7 +12,11 @@ ENV UV_COMPILE_BYTECODE=1 \
 # across both images. If using a managed Python version, it needs to be
 # copied from the build image into the final image; see `standalone.Dockerfile`
 # for an example.
-ENV UV_PYTHON_DOWNLOADS=0
+
+RUN apt-get update && apt-get install --no-install-recommends -y \
+    curl \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* 
 
 WORKDIR /app
 RUN --mount=type=cache,target=/root/.cache/uv \
@@ -42,6 +46,4 @@ USER app
 # Place executables in the environment at the front of the path
 ENV PATH="/app/.venv/bin:$PATH"
 
-# Run the Django application by default
-
-CMD ["python", "/app/manage.py", "runserver", "0.0.0.0:8000"]
+WORKDIR /app
